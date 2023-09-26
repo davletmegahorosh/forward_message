@@ -1,0 +1,11 @@
+CREATE_WORDS_TABLE = """
+        CREATE TABLE IF NOT EXISTS key_words
+        (ID INTEGER PRIMARY KEY,
+        WORD CHAR(128))
+"""
+
+INSERT_WORD_QUERY = """INSERT OR IGNORE INTO key_words VALUES (?,?)"""
+
+SELECT_WORD_QUERY = """SELECT id, word FROM key_words"""
+
+DELETE_USER_FORM_QUERY = """DELETE FROM key_words WHERE ID = ?"""
