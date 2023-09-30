@@ -1,17 +1,28 @@
-from aiogram.utils import executor
-from config import dp
+from pyrogram import filters, types
 import logging
-from handlers import forward_from_chat, call_back
-from database.sql_commands import Database
+from pyrogram.enums import ParseMode
+from config import words, client
 
-call_back.register_callback_query_handler(dp=dp)
-forward_from_chat.register_forward_message_handlers(dp=dp)
 
-async def on_start_up(_):
-    db = Database()
-    db.sql_create_db()
+@client.on_message()
+async def forward_messages_to_channel(client, message: types.Message):
+    if message.chat.id != -4035690060:
+        if message.photo and message.caption:
+            text = (f'@{message.from_user.username}\n'
+                    f'{message.caption}\n'
+                    f'<a href="{message.link}">Перейти к сообщению</a>\n')
+            await client.send_message(-4035690060,text)
+        else:
+            for word in words:
+                if word.lower() in message.text.lower():
+                    text = (f'@{message.from_user.username}\n'
+                            f'{message.text}\n'
+                            f'<a href="{message.link}">Перейти к сообщению</a>\n')
+                    await client.send_message(-4035690060, text)
+
+
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    executor.start_polling(dp,skip_updates=True, on_startup=on_start_up)
+    client.run()
