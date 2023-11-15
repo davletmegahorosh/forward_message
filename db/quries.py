@@ -44,7 +44,7 @@ def save_text(text):
     db.commit()
 
 def drop_db():
-    one_hour_ago = (datetime.now() - timedelta(minutes=3)).strftime("%Y-%m-%d %H:%M:%S")
+    one_hour_ago = (datetime.now() - timedelta(minutes=10)).strftime("%Y-%m-%d %H:%M:%S")
     cursor.execute(
         """
         DELETE FROM existed_texts
@@ -55,8 +55,4 @@ def drop_db():
         }
     )
     db.commit()
-
-if __name__ == "__main__":
-    init_db()
-    create_tables()
 
